@@ -2,9 +2,16 @@ from contextlib import asynccontextmanager
 from datetime import datetime, timezone, timedelta
 from uuid import UUID
 from typing import List
-from fastapi import Body, FastAPI, Depends, HTTPException, status
+
+from fastapi import Body, FastAPI, Depends, HTTPException, status, Request, Form
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+
 from sqlalchemy.orm import Session
+
+import uvicorn
 
 from app.auth.dependencies import get_current_active_user
 from app.models.calculation import Calculation
@@ -13,6 +20,7 @@ from app.schemas.calculation import CalculationBase, CalculationResponse, Calcul
 from app.schemas.token import TokenResponse
 from app.schemas.user import UserCreate, UserResponse, UserLogin
 from app.database import Base, get_db, engine
+
 
 # Create tables on startup
 @asynccontextmanager
@@ -28,6 +36,32 @@ app = FastAPI(
     version="1.0.0",
     lifespan=lifespan
 )
+# Mount the static files directory
+app.mount("/static", StaticFiles(directory="static"), name="static")
+
+# Set up Jinja2 templates directory
+templates = Jinja2Templates(directory="templates")
+
+# Home page route
+@app.get("/", response_class=HTMLResponse, tags=["web"])
+def read_index(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
+
+# Login page route
+@app.get("/login", response_class=HTMLResponse, tags=["web"])
+def login_page(request: Request):
+    return templates.TemplateResponse("login.html", {"request": request})
+
+# Registration page route
+@app.get("/register", response_class=HTMLResponse, tags=["web"])
+def register_page(request: Request):
+    return templates.TemplateResponse("register.html", {"request": request})
+
+# Dashboard page Route
+
+@app.get("/dashboard", response_class=HTMLResponse, tags=["web"])
+def dashboard_page(request: Request):
+    return templates.TemplateResponse("dashboard.html", {"request": request})
 
 # ------------------------------------------------------------------------------
 # Health Endpoint
