@@ -14,4 +14,4 @@ Go to localhost:8000/docs and use Swagger UI to test the endpoints.
 
 # Docker Hub Repository
 
-https://hub.docker.com/repository/docker/jl247/is601-module-12/general
+https://hub.docker.com/repository/docker/jl247/is601-module-13/general

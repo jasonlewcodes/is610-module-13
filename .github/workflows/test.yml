@@ -83,8 +83,8 @@ jobs:
         with:
           push: true
           tags: |
-            jl247/is601-module-12:latest
-            jl247/is601-module-12:${{ github.sha }}
+            jl247/is601-module-13:latest
+            jl247/is601-module-13:${{ github.sha }}
           platforms: linux/amd64,linux/arm64
-          cache-from: type=registry,ref=kaw393939/is601-module-12:cache
+          cache-from: type=registry,ref=kaw393939/is601-module-13:cache
           cache-to: type=inline,mode=max
